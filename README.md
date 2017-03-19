@@ -33,8 +33,8 @@ You can also set your Rocket.Chat credentials using environment variables:
 The order of precedence is:
 
 1. Workspace settings
-2. User settings
-3. Environment variables
+1. User settings
+1. Environment variables
 
 You can also use a utility such as `direnv`, which you can get here: [https://github.com/direnv/direnv](https://github.com/direnv/direnv)
 

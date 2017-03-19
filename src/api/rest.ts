@@ -1,11 +1,14 @@
+import { workspace } from 'vscode';
 import { Client } from 'node-rest-client';
 
 type restVerb = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 const GET = 'GET';
 const POST = 'POST';
 const client = new Client();
-const serverUrl = "https://rocket.chas.se/api/v1";
+const apiPath = 'api/v1';
 const status = require('http-status-codes');
+const config = workspace.getConfiguration('rocketCode');
+const serverUrl = config.serverUrl || process.env.ROCKET_SERVER;
 
 //
 function getPromise(name, args?) {
@@ -21,7 +24,7 @@ function getPromise(name, args?) {
   });
 }
 
-const register = (name, verb: restVerb) => client.registerMethod(name, `${serverUrl}/${name}`, verb);
+const register = (name, verb: restVerb) => client.registerMethod(name, `${serverUrl}/${apiPath}/${name}`, verb);
 
 /**************************************************************************************************************
 API ENDPOINTS
@@ -164,7 +167,7 @@ export const channels = {
     return await getPromise('channels.leave', args);
   },
 
-  'list.joined': async function listJoined() {
+  listJoined: async function listJoined() {
     const args = { headers };
     return await getPromise('channels.list.joined', args);
   },
@@ -250,7 +253,7 @@ export const im = {
     return await getPromise('im.list', args);
   },
 
-  'list.everyone': async function listEveryone() {
+  listEveryone: async function listEveryone() {
     const args = { headers };
     return await getPromise('im.list.everyone', args);
   },
@@ -289,6 +292,7 @@ export const chat = {
 
   // TODO: see about implementing the rest of the features like attachments etc...
   postMessage: async function postMessage(roomId: string, text: string) {
+    console.log(roomId, text);
     const args = {
       headers,
       data: { roomId, text },

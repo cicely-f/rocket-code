@@ -65,6 +65,10 @@
             {
                 "command": "rocketCode.logout",
                 "title": "Rocket.Code: logout"
+            },
+            {
+                "command": "rocketCode.testMessage",
+                "title": "Rocket.Code: send test message"
             }
         ]
     },
