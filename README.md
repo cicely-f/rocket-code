@@ -4,13 +4,8 @@ This Extension lets you post to Rocket.Chat from within Visual Studio Code. It s
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
-
-For example if there is an image sub-folder under your extension project workspace:
-
-\!\[feature X\]\(images/feature-x.png\)
-
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+* Post code snippets directly to a #channel or user
+* Chat from within the Code interface, no need for an external client (for the channel(s) you join in the current workspace)
 
 ## Requirements
 
