@@ -1,0 +1,20 @@
+{
+    "language": "en_US",
+    "ignoreWordsList": [
+        "WattPad",
+        "chasStore",
+        "Symfony",
+        "README",
+        "screenshots",
+        "username",
+        "CHANGELOG"
+    ],
+    "documentTypes": [
+        "markdown",
+        "latex",
+        "plaintext"
+    ],
+    "ignoreRegExp": [],
+    "ignoreFileExtensions": [],
+    "checkInterval": 5000
+}

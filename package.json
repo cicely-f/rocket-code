@@ -16,14 +16,41 @@
         "Other"
     ],
     "activationEvents": [
-        "onCommand:extension.sayHello"
+        "*"
     ],
     "main": "./out/src/extension",
     "contributes": {
+        "configuration": {
+            "type": "object",
+            "title": "Rocket.Code configuration",
+            "properties": {
+                "rocketCode.serverUrl": {
+                    "type": "string",
+                    "description": "The URL of the Rocket.Chat server, e.g. https://rocket.example.com"
+                },
+                "rocketCode.username": {
+                    "type": "string",
+                    "description": "Your username for the Rocket.Chat server"
+                },
+                "rocketCode.password": {
+                    "type": "string",
+                    "description": "Your password for the Rocket.Chat server (optional, if not supplied, you'll be prompted)"
+                },
+                "rocketCode.channel": {
+                    "type": "string",
+                    "default": "#general",
+                    "description": "The default channel to post to."
+                }
+            }
+        },
         "commands": [
             {
-                "command": "extension.sayHello",
-                "title": "Hello World"
+                "command": "rocketCode.login",
+                "title": "Rocket.Code: login"
+            },
+            {
+                "command": "rocketCode.logout",
+                "title": "Rocket.Code: logout"
             }
         ]
     },
@@ -34,10 +61,14 @@
         "test": "node ./node_modules/vscode/bin/test"
     },
     "devDependencies": {
-        "typescript": "^2.0.3",
-        "vscode": "^1.0.0",
-        "mocha": "^2.3.3",
+        "@types/mocha": "^2.2.32",
         "@types/node": "^6.0.40",
-        "@types/mocha": "^2.2.32"
+        "mocha": "^2.3.3",
+        "typescript": "^2.0.3",
+        "vscode": "^1.0.0"
+    },
+    "dependencies": {
+        "http-status-codes": "^1.1.6",
+        "node-rest-client": "^3.0.7"
     }
 }

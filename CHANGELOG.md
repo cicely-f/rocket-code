@@ -1,7 +1,7 @@
 # Change Log
 All notable changes to the "rocket-code" extension will be documented in this file.
 
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
-
-## [Unreleased]
-- Initial release
+## 0.0.1 [Unreleased]
+- Implement basic Rocket.Chat API access
+- Add configuration settings
+- Login/logout via command palette and on startup.
