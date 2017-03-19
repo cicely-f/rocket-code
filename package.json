@@ -15,6 +15,20 @@
     "categories": [
         "Other"
     ],
+    "keywords": [
+        "rocketchat",
+        "Rocket.Chat",
+        "chat"
+    ],
+    "license": "CC-BY-NC-SA-4.0",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/andre-f/rocket-code.git"
+    },
+    "bugs": {
+        "url": "https://github.com/andre-f/rocket-code/issues",
+        "email": "amfischer@gmail.com"
+    },
     "activationEvents": [
         "*"
     ],
