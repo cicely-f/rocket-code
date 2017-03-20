@@ -1,21 +1,43 @@
 import { window, StatusBarItem, StatusBarAlignment } from 'vscode';
 import { isLoggedIn } from '../api/rocket-api';
 
+interface ChannelInterface {
+  _id: string;
+  name: string;
+  t: string;
+  usernames: string[];
+  msgs: number;
+  u: {
+    _id: string,
+    username: string,
+  };
+  ts: string;
+  ro: boolean;
+  sysMes: boolean;
+  _updatedAt: string;
+}
+
 class ChannelController {
   private _statusBarItem: StatusBarItem;
+  private _currentChannel: ChannelInterface;
 
-  public setChannel(name) { }
+  public setChannel(channel) {
+    this._currentChannel = channel;
+    this.updateStatusBar();
+  }
 
-  public updateChannel() {
+  public getChannel() {
+    return this._currentChannel;
+  }
+
+  public updateStatusBar() {
     if (!this._statusBarItem) {
       this._statusBarItem = window.createStatusBarItem(StatusBarAlignment.Left);
     }
 
-    if (isLoggedIn()) {
-      this._statusBarItem.text = '$(rocket) you are logged in';
-    } else {
-      this._statusBarItem.text = '$(rocket) you are not logged in';
-    }
+    const loggedInText = `$(rocket) logged ${isLoggedIn() ? 'in' : 'out'}`;
+    const channelText = !!this._currentChannel ? `$(comment-discussion) #${this._currentChannel.name}` : null;
+    this._statusBarItem.text = `${loggedInText} ${channelText}`;
     this._statusBarItem.show();
   }
   dispose() {

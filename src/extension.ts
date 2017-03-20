@@ -32,7 +32,7 @@ export function activate(context: ExtensionContext) {
         try {
             await api.login(ROCKET_USER, ROCKET_PASSWORD);
             Output.log(`Logged in on '${ROCKET_SERVER}' as user '${ROCKET_USER}'`);
-            channelController.updateChannel();
+            channelController.updateStatusBar();
             const me = await api.me();
             console.log('me', me);
         }
@@ -46,7 +46,7 @@ export function activate(context: ExtensionContext) {
         try {
             await api.logout();
             Output.log(`You logged out of Rocket.Chat`);
-            channelController.updateChannel();
+            channelController.updateStatusBar();
         } catch (e) {
             showErrorMessage(e);
         }
@@ -57,8 +57,8 @@ export function activate(context: ExtensionContext) {
     const rcTestMessage = commands.registerCommand('rocketCode.testMessage', async () => {
         const testMessage = `Test message at ${new Date()}`;
         const channels = await api.channels.listJoined();
-        const testChannel = channels.channels.find(c => c.name === 'andre-test');
-        console.log('testChannel', testChannel);
+        const testChannel = channels.channels.find(c => c.name === config.channel);
+        channelController.setChannel(testChannel);
         try {
             const result = await api.chat.postMessage(testChannel._id, testMessage);
             console.log(result);
