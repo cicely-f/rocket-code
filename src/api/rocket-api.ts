@@ -1,16 +1,17 @@
 import { workspace } from 'vscode';
 import { Client } from 'node-rest-client';
 
-type restVerb = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
+type restVerb = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'; // for some reason, Rocket.Chat only uses GET and POST... so not really REST :/
 const GET = 'GET';
 const POST = 'POST';
+const status = require('http-status-codes');
+
 const client = new Client();
 const apiPath = 'api/v1';
-const status = require('http-status-codes');
 const config = workspace.getConfiguration('rocketCode');
 const serverUrl = config.serverUrl || process.env.ROCKET_SERVER;
 
-//
+// TODO: see about refactoring getPromise() and register() and export async function foo() to DRY up the code
 function getPromise(name, args?) {
   return new Promise<any>((resolve, reject) => {
     client.methods[name](args, (data, response) => {

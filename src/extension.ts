@@ -3,7 +3,7 @@
 // Import the module and reference it with the alias vscode in your code below
 import { ExtensionContext, commands, window, workspace } from 'vscode';
 
-import { api } from './api/rest';
+import { api } from './api/rocket-api';
 import Output from './output-channel';
 
 const loginError = reason => window.showErrorMessage(`Error logging in. Please check your credentials.`);
@@ -18,9 +18,9 @@ export function activate(context: ExtensionContext) {
 
     const { ROCKET_SERVER, ROCKET_USER, ROCKET_PASSWORD } = process.env;
 
-    api.login(ROCKET_USER, ROCKET_PASSWORD)
-        .then(_ => Output.log(`Logged in on '${ROCKET_SERVER}' as user '${ROCKET_USER}'`))
-        .catch(loginError);
+    // api.login(ROCKET_USER, ROCKET_PASSWORD)
+    //     .then(_ => Output.log(`Logged in on '${ROCKET_SERVER}' as user '${ROCKET_USER}'`))
+    //     .catch(loginError);
 
     const rcLogin = commands.registerCommand('rocketCode.login', async () => {
         try {
