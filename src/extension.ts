@@ -7,7 +7,10 @@ import { api } from './api/rocket-api';
 import Output from './output-channel';
 
 const loginError = reason => window.showErrorMessage(`Error logging in. Please check your credentials.`);
-const showErrorMessage = error => window.showErrorMessage(`An Error occurred: ${error}`);
+const showErrorMessage = error => {
+    window.showErrorMessage(`An Error occurred: ${JSON.stringify(error)}`);
+    console.log('Rocket.Chat error:', error);
+};
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
