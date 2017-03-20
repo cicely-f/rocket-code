@@ -1,8 +1,9 @@
 'use strict';
 // "standard" imports, i.e. 'vscode', node_modules...
-import { ExtensionContext, commands, window, workspace, QuickPickOptions, QuickPickItem } from 'vscode';
+import { ExtensionContext, commands, window, QuickPickOptions, QuickPickItem } from 'vscode';
 
 // extension-specific imports
+import { config } from './config';
 import { api } from './api/rocket-api';
 import Output from './output-channel';
 import ChannelController from './channels/channel-controller';
@@ -18,13 +19,8 @@ const showErrorMessage = error => {
 // this method is called when the extension is activated
 export function activate(context: ExtensionContext) {
 
-    const config = workspace.getConfiguration('rocketCode');
-    console.log(config); //TODO: configuration handling as an import
-
     const channelController = new ChannelController();
     context.subscriptions.push(channelController);
-
-    const { ROCKET_SERVER, ROCKET_USER, ROCKET_PASSWORD } = process.env;
 
     /*********************************************************************************************
      * FUNCTION IMPLEMENTATIONS
@@ -36,11 +32,11 @@ export function activate(context: ExtensionContext) {
 
     const rcLogin = commands.registerCommand('rocketCode.login', async () => {
         try {
-            await api.login(ROCKET_USER, ROCKET_PASSWORD);
-            Output.log(`Logged in on '${ROCKET_SERVER}' as user '${ROCKET_USER}'`);
+            await api.login(config.username, config.password);
+            Output.log(`Logged in on '${config.server}' as user '${config.username}'`);
             channelController.updateStatusBar();
             const channels = await api.channels.listJoined();
-            const defaultChannel = channels.channels.find(c => c.name === config.channel);
+            const defaultChannel = channels.channels.find(c => c.name === config.defaultChannel);
             channelController.setChannel(defaultChannel);
         }
         catch (e) {
@@ -72,7 +68,7 @@ export function activate(context: ExtensionContext) {
     const rcTestMessage = commands.registerCommand('rocketCode.testMessage', async () => {
         const testMessage = `Test message at ${new Date()}`;
         const channels = await api.channels.listJoined();
-        const testChannel = channels.channels.find(c => c.name === config.channel);
+        const testChannel = channels.channels.find(c => c.name === config.defaultChannel);
         channelController.setChannel(testChannel);
         try {
             const result = await api.chat.postMessage(testChannel._id, testMessage);
