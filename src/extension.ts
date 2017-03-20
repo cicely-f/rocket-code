@@ -1,7 +1,7 @@
 'use strict';
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
-import { ExtensionContext, commands, window, workspace } from 'vscode';
+import { ExtensionContext, commands, window, workspace, QuickPickOptions, QuickPickItem } from 'vscode';
 
 import { api } from './api/rocket-api';
 import Output from './output-channel';
@@ -35,6 +35,9 @@ export function activate(context: ExtensionContext) {
             channelController.updateStatusBar();
             const me = await api.me();
             console.log('me', me);
+            const channels = await api.channels.listJoined();
+            const defaultChannel = channels.channels.find(c => c.name === config.channel);
+            channelController.setChannel(defaultChannel);
         }
         catch (e) {
             loginError(e);
@@ -72,6 +75,34 @@ export function activate(context: ExtensionContext) {
         Output.log(list);
     });
     context.subscriptions.push(rcListJoinedChannels);
+
+    const rcSelectChannel = commands.registerCommand('rocketChat.selectChannel', async () => {
+        try {
+            const result = await api.channels.listJoined();
+            const items: QuickPickItem[] = result.channels.map(c => {
+                return {
+                    label: c.name,
+                    description: c.topic || null,
+                    details: c.description || null,
+                };
+            });
+            const options: QuickPickOptions = {
+                ignoreFocusOut: true,
+                matchOnDescription: true,
+                matchOnDetail: true,
+                placeHolder: channelController.getChannel().name,
+            };
+            const picked = await window.showQuickPick(items, options);
+            const selectedChannel = result.channels.find(c => c.name === picked.label);
+            if (!!selectedChannel) {
+                channelController.setChannel(selectedChannel);
+                Output.log(`Switched to #${selectedChannel.name}`);
+            }
+        } catch (e) {
+            showErrorMessage(e);
+        }
+    });
+    context.subscriptions.push(rcSelectChannel);
 }
 
 // this method is called when your extension is deactivated
