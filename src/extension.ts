@@ -1,40 +1,44 @@
 'use strict';
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
+// "standard" imports, i.e. 'vscode', node_modules...
 import { ExtensionContext, commands, window, workspace, QuickPickOptions, QuickPickItem } from 'vscode';
 
+// extension-specific imports
 import { api } from './api/rocket-api';
 import Output from './output-channel';
 import ChannelController from './channels/channel-controller';
 
+// temporary error message functions. TODO: make this into something more flexible and robust.
 const loginError = reason => window.showErrorMessage(`Error logging in. Please check your credentials.`);
+
 const showErrorMessage = error => {
     window.showErrorMessage(`An Error occurred: ${JSON.stringify(error)}`);
     console.log('Rocket.Chat error:', error);
 };
 
-// this method is called when your extension is activated
-// your extension is activated the very first time the command is executed
+// this method is called when the extension is activated
 export function activate(context: ExtensionContext) {
 
     const config = workspace.getConfiguration('rocketCode');
-    console.log(config);
+    console.log(config); //TODO: configuration handling as an import
+
     const channelController = new ChannelController();
     context.subscriptions.push(channelController);
 
     const { ROCKET_SERVER, ROCKET_USER, ROCKET_PASSWORD } = process.env;
 
-    // api.login(ROCKET_USER, ROCKET_PASSWORD)
-    //     .then(_ => Output.log(`Logged in on '${ROCKET_SERVER}' as user '${ROCKET_USER}'`))
-    //     .catch(loginError);
+    /*********************************************************************************************
+     * FUNCTION IMPLEMENTATIONS
+     *********************************************************************************************/
+
+    /**
+     * login(username, password) - login to the Rocket.Chat server
+     */
 
     const rcLogin = commands.registerCommand('rocketCode.login', async () => {
         try {
             await api.login(ROCKET_USER, ROCKET_PASSWORD);
             Output.log(`Logged in on '${ROCKET_SERVER}' as user '${ROCKET_USER}'`);
             channelController.updateStatusBar();
-            const me = await api.me();
-            console.log('me', me);
             const channels = await api.channels.listJoined();
             const defaultChannel = channels.channels.find(c => c.name === config.channel);
             channelController.setChannel(defaultChannel);
@@ -44,6 +48,10 @@ export function activate(context: ExtensionContext) {
         }
     });
     context.subscriptions.push(rcLogin);
+
+    /**
+     * logout() - logout from server
+     */
 
     const rcLogout = commands.registerCommand('rocketCode.logout', async () => {
         try {
@@ -57,6 +65,10 @@ export function activate(context: ExtensionContext) {
     });
     context.subscriptions.push(rcLogout);
 
+    /**
+     * testMessage() - send a test message to the default channel TODO: remove this at some point, it's cruft.
+     */
+
     const rcTestMessage = commands.registerCommand('rocketCode.testMessage', async () => {
         const testMessage = `Test message at ${new Date()}`;
         const channels = await api.channels.listJoined();
@@ -69,12 +81,20 @@ export function activate(context: ExtensionContext) {
     });
     context.subscriptions.push(rcTestMessage);
 
+    /**
+     * listJoinedChannels() - log a list of joined channels to the console. probably useless and could be removed
+     */
+
     const rcListJoinedChannels = commands.registerCommand('rocketCode.listJoinedChannels', async () => {
         const channels = await api.channels.listJoined();
         const list = `You have joined the following channels:\n${channels.channels.map(c => c.name).join('\n')}`;
         Output.log(list);
     });
     context.subscriptions.push(rcListJoinedChannels);
+
+    /**
+     * selectChannel() - changes the active chat channel. TODO: see how to support switching to @dm as well
+     */
 
     const rcSelectChannel = commands.registerCommand('rocketChat.selectChannel', async () => {
         try {
@@ -105,6 +125,6 @@ export function activate(context: ExtensionContext) {
     context.subscriptions.push(rcSelectChannel);
 }
 
-// this method is called when your extension is deactivated
+// this method is called when the extension is deactivated
 export function deactivate() {
 }
