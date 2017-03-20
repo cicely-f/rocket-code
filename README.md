@@ -2,6 +2,8 @@
 
 This Extension lets you post to Rocket.Chat from within Visual Studio Code. It supports channels and private messages, as well as posting code snippets.
 
+The Extension loads when you call the "Rocket.Code login" command from the palette.
+
 ## Features
 
 * Post code snippets directly to a #channel or user
@@ -9,7 +11,7 @@ This Extension lets you post to Rocket.Chat from within Visual Studio Code. It s
 
 ## Requirements
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+Visual Studio Code (obviously).
 
 ## Extension Settings
 

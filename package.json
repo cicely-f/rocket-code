@@ -30,7 +30,7 @@
         "email": "amfischer@gmail.com"
     },
     "activationEvents": [
-        "*"
+        "onCommand:rocketCode.login"
     ],
     "main": "./out/src/extension",
     "contributes": {
