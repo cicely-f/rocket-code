@@ -1,10 +1,13 @@
 import { window, OutputChannel, Disposable } from 'vscode';
 
+// TODO: replace this shit with Moment or something better...
 const time = () => {
   const now = new Date();
   const min = now.getMinutes();
-  const minString = (min < 10) ? `0${min}` : `${min}`
-  return `${now.getHours()}:${minString}:${now.getSeconds()}`;
+  const minString = (min < 10) ? `0${min}` : `${min}`;
+  const sec = now.getSeconds();
+  const secString = (sec < 10) ? `0${sec}` : `${sec}`;
+  return `${now.getHours()}:${minString}:${secString}`;
 };
 
 class RocketCodeOutput {
