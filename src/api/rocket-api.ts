@@ -1,40 +1,15 @@
-import { workspace } from 'vscode';
-import { Client } from 'node-rest-client';
+import { getPromise, register, generateFn } from './helpers';
 
-type restVerb = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'; // for some reason, Rocket.Chat only uses GET and POST... so not really REST :/
 const GET = 'GET';
 const POST = 'POST';
-const status = require('http-status-codes');
-
-const client = new Client();
-const apiPath = 'api/v1';
-const config = workspace.getConfiguration('rocketCode');
-const serverUrl = config.serverUrl || process.env.ROCKET_SERVER;
-
-// TODO: see about refactoring getPromise() and register() and export async function foo() to DRY up the code
-function getPromise(name, args?) {
-  return new Promise<any>((resolve, reject) => {
-    client.methods[name](args, (data, response) => {
-      if (response.statusCode === status.OK) {
-        resolve(data);
-      } else {
-        console.error('error response', status.getStatusText(response.statusCode));
-        reject(response);
-      }
-    });
-  });
-}
-
-const register = (name, verb: restVerb) => client.registerMethod(name, `${serverUrl}/${apiPath}/${name}`, verb);
 
 /**************************************************************************************************************
 API ENDPOINTS
 ***************************************************************************************************************/
-const defaultHeaders = {
+export const headers = {
   "Content-Type": "application/json",
 };
 
-let headers = defaultHeaders;
 
 /** MISCELLANEOUS */
 register('info', GET);
@@ -61,16 +36,22 @@ export async function logout() {
     headers,
   };
   const result = await getPromise('logout', args);
-  headers = defaultHeaders;
+  delete headers["X-User-Id"];
+  delete headers["X-Auth-Token"];
   return result;
 }
 
-register('me', GET); // requires auth)
-export async function me() {
-  const args = {
-    headers,
-  };
-  return await getPromise('me', args);
+// register('me', GET); // requires auth)
+// export async function me() {
+//   const args = {
+//     headers,
+//   };
+//   return await getPromise('me', args);
+// }
+export const me = generateFn('me', GET);
+
+export function isLoggedIn(): boolean {
+  return !!headers["X-User-Id"] && !!headers["X-Auth-Token"];
 }
 
 /** USERS */
@@ -281,7 +262,7 @@ register('chat.delete', POST);
 register('chat.postMessage', POST);
 register('chat.update', POST);
 
-export const chat = {
+const chat = {
 
   delete: async function deleteChat(roomId: string, msgId: string, asUser = false) {
     const args = {
@@ -313,6 +294,8 @@ export const chat = {
 
 /** EXPORT COMPLETE API */
 export const api = {
+  headers,
+  isLoggedIn,
   info,
   login,
   logout,

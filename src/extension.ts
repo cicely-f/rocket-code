@@ -5,6 +5,7 @@ import { ExtensionContext, commands, window, workspace } from 'vscode';
 
 import { api } from './api/rocket-api';
 import Output from './output-channel';
+import ChannelController from './channels/channel-controller';
 
 const loginError = reason => window.showErrorMessage(`Error logging in. Please check your credentials.`);
 const showErrorMessage = error => {
@@ -18,6 +19,8 @@ export function activate(context: ExtensionContext) {
 
     const config = workspace.getConfiguration('rocketCode');
     console.log(config);
+    const channelController = new ChannelController();
+    context.subscriptions.push(channelController);
 
     const { ROCKET_SERVER, ROCKET_USER, ROCKET_PASSWORD } = process.env;
 
@@ -29,6 +32,7 @@ export function activate(context: ExtensionContext) {
         try {
             await api.login(ROCKET_USER, ROCKET_PASSWORD);
             Output.log(`Logged in on '${ROCKET_SERVER}' as user '${ROCKET_USER}'`);
+            channelController.updateChannel();
             const me = await api.me();
             console.log('me', me);
         }
@@ -41,6 +45,8 @@ export function activate(context: ExtensionContext) {
     const rcLogout = commands.registerCommand('rocketCode.logout', async () => {
         try {
             await api.logout();
+            Output.log(`You logged out of Rocket.Chat`);
+            channelController.updateChannel();
         } catch (e) {
             showErrorMessage(e);
         }
@@ -49,12 +55,7 @@ export function activate(context: ExtensionContext) {
     context.subscriptions.push(rcLogout);
 
     const rcTestMessage = commands.registerCommand('rocketCode.testMessage', async () => {
-        const testMessage = `This is a test from within Visual Studio Code. Soon it should be possible to send something like this
-\`\`\`
-const result = await api.chat.postMessage(testChannel._id, testMessage);
-console.log(result);
-\`\`\`
-        simply by selecting and right-clicking... ;)`;
+        const testMessage = `Test message at ${new Date()}`;
         const channels = await api.channels.listJoined();
         const testChannel = channels.channels.find(c => c.name === 'andre-test');
         console.log('testChannel', testChannel);
@@ -64,6 +65,13 @@ console.log(result);
         } catch (e) { showErrorMessage(e); console.log(e); }
     });
     context.subscriptions.push(rcTestMessage);
+
+    const rcListJoinedChannels = commands.registerCommand('rocketCode.listJoinedChannels', async () => {
+        const channels = await api.channels.listJoined();
+        const list = `You have joined the following channels:\n${channels.channels.map(c => c.name).join('\n')}`;
+        Output.log(list);
+    });
+    context.subscriptions.push(rcListJoinedChannels);
 }
 
 // this method is called when your extension is deactivated

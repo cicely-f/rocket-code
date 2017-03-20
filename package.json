@@ -70,6 +70,10 @@
             {
                 "command": "rocketCode.testMessage",
                 "title": "Rocket.Code: send test message"
+            },
+            {
+                "command": "rocketCode.listJoinedChannels",
+                "title": "Rocket.Code: list joined channels"
             }
         ]
     },
