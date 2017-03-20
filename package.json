@@ -2,7 +2,7 @@
     "name": "rocket-code",
     "displayName": "Rocket.Code",
     "description": "Use Rocket.Chat from within Visual Studio Code",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "preview": true,
     "publisher": "andrefischer",
     "author": {
@@ -32,6 +32,7 @@
     "activationEvents": [
         "onCommand:rocketCode.login"
     ],
+    "icon": "./icon128.png",
     "main": "./out/src/extension",
     "contributes": {
         "configuration": {
