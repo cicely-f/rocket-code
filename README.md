@@ -1,3 +1,4 @@
+![logo](icon128.png)
 # Rocket.Code
 
 This Extension lets you post to Rocket.Chat from within Visual Studio Code. It supports channels and private messages, as well as posting code snippets.
@@ -20,7 +21,7 @@ This extension contributes the following settings:
 * `rocketCode.serverUrl`: The URL of the Rocket.Chat server, e.g. https://rocket.example.com
 * `rocketCode.username`: Your Rocket.Chat username
 * `rocketCode.password`: Your Rocket.Chat password
-* `rocketCode.channel`: The default channel to post to (you can post to a different channel/DM at any time)
+* `rocketCode.channel`: The default channel to post to (you can post to a different #channel/@DM at any time)
 
 ### Using Environment Variables and/or the workspace
 
