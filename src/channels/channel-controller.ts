@@ -1,9 +1,10 @@
 import { window, StatusBarItem, StatusBarAlignment } from 'vscode';
 import { isLoggedIn } from '../api/rocket-api';
+import { config } from '../config';
 
 interface ChannelInterface {
   _id: string;
-  name: string;
+  name?: string;
   t: string;
   usernames: string[];
   msgs: number;
@@ -22,6 +23,7 @@ class ChannelController {
   private _currentChannel: ChannelInterface;
 
   public setChannel(channel) {
+    console.log('setting channel', channel);
     this._currentChannel = channel;
     this.updateStatusBar();
   }
@@ -30,13 +32,18 @@ class ChannelController {
     return this._currentChannel;
   }
 
+  public getChannelName(): string {
+    return this._currentChannel.name || this._currentChannel.usernames.filter(n => n !== config.username).join(', ');
+  }
+
   public updateStatusBar() {
     if (!this._statusBarItem) {
       this._statusBarItem = window.createStatusBarItem(StatusBarAlignment.Left);
     }
 
     const loggedInText = `$(rocket) logged ${isLoggedIn() ? 'in' : 'out'}`;
-    const channelText = !!this._currentChannel ? `$(comment-discussion) #${this._currentChannel.name}` : null;
+    const prefix = (!!this._currentChannel && this._currentChannel.t === 'c') ? '#' : '@';
+    const channelText = !!this._currentChannel ? `$(comment-discussion) ${prefix}${this._currentChannel.name}` : null;
     this._statusBarItem.text = `${loggedInText} ${channelText}`;
     this._statusBarItem.show();
   }
