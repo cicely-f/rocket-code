@@ -53,7 +53,7 @@
                 },
                 "rocketCode.channel": {
                     "type": "string",
-                    "default": "#general",
+                    "default": "general",
                     "description": "The default channel to post to."
                 }
             }
@@ -73,11 +73,23 @@
             },
             {
                 "command": "rocketCode.listJoinedChannels",
-                "title": "Rocket.Code: list joined channels"
+                "title": "Rocket.Code: list joined #channels"
             },
             {
                 "command": "rocketChat.selectChannel",
-                "title": "Rocket.Code: select current channel"
+                "title": "Rocket.Code: switch to #channel"
+            },
+            {
+                "command": "rocketCode.listIms",
+                "title": "Rocket.Code: list @conversations"
+            },
+            {
+                "command": "rocketChat.selectIm",
+                "title": "Rocket.Code: switch to @conversation"
+            },
+            {
+                "command": "rocketChat.setAvatar",
+                "title": "Rocket.Code: change your Avatar"
             }
         ]
     },

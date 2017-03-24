@@ -58,6 +58,7 @@ export function isLoggedIn(): boolean {
 register('users.getPresence', GET);
 register('users.info', GET);
 register('users.list', GET);
+register('users.setAvatar', POST);
 
 export const users = {
 
@@ -82,6 +83,13 @@ export const users = {
     return await getPromise('users.list', args);
   },
 
+  setAvatar: async function setAvatar(avatarUrl: string) {
+    const args = {
+      headers,
+      data: { avatarUrl },
+    };
+    return await getPromise('users.setAvatar', args);
+  },
 };
 
 /** CHANNELS */
@@ -204,6 +212,120 @@ export const channels = {
 
 };
 
+/** GROUPS */
+register('groups.close', POST);
+register('groups.create', POST);
+register('groups.history', GET);
+register('groups.info', GET);
+register('groups.invite', POST);
+register('groups.leave', POST);
+register('groups.list', GET);
+register('groups.open', POST);
+register('groups.rename', POST);
+register('groups.setDescription', POST);
+register('groups.setPurpose', POST);
+register('groups.setTopic', POST);
+
+export const groups = {
+
+  close: async function close(roomId: string) {
+    const args = {
+      headers,
+      data: { roomId },
+    };
+    return await getPromise('groups.close', args);
+  },
+
+  create: async function create(name: string, members?: string[]) {
+    const args = {
+      headers,
+      data: { name, members },
+    };
+    return await getPromise('groups.create', args);
+  },
+
+  history: async function history(roomId: string, latest?: Date, oldest?: Date, inclusive = false, count = 20, unreads = false) {
+    const args = {
+      headers,
+      parameters: { roomId, latest, oldest, inclusive, count, unreads },
+    };
+    return await getPromise('groups.history', args);
+  },
+
+  info: async function info(roomId: string) {
+    const args = {
+      headers,
+      parameters: { roomId },
+    };
+    return await getPromise('groups.info', args);
+  },
+
+  invite: async function invite(roomId: string, userId: string) {
+    const args = {
+      headers,
+      data: { roomId, userId },
+    };
+    return await getPromise('groups.invite', args);
+  },
+
+  leave: async function leave(roomId: string) {
+    const args = {
+      headers,
+      data: { roomId },
+    };
+    return await getPromise('groups.leave', args);
+  },
+
+  list: async function list(offset = 0, count = 0) {
+    const args = {
+      headers,
+      parameters: { offset, count },
+    };
+    return await getPromise('groups.list', args);
+  },
+
+  open: async function open(roomId: string) {
+    const args = {
+      headers,
+      data: { roomId },
+    };
+    return await getPromise('groups.open', args);
+  },
+
+  rename: async function rename(roomId: string, name: string) {
+    const args = {
+      headers,
+      data: { roomId, name },
+    };
+    return await getPromise('groups.rename', args);
+  },
+
+  setDescription: async function setDescription(roomId: string, description: string) {
+    const args = {
+      headers,
+      data: { roomId, description },
+    };
+    return await getPromise('groups.setDescription', args);
+  },
+
+  setPurpose: async function setPurpose(roomId: string, purpose: string) {
+    const args = {
+      headers,
+      data: { roomId, purpose },
+    };
+    return await getPromise('groups.setPurpose', args);
+  },
+
+  setTopic: async function setTopic(roomId: string, topic: string) {
+    const args = {
+      headers,
+      data: { roomId, topic },
+    };
+    return await getPromise('groups.setTopic', args);
+  },
+
+};
+
 /** INSTANT MESSAGES */
 register('im.close', POST);
 register('im.history', GET);
@@ -230,8 +352,11 @@ export const im = {
     return await getPromise('im.history', args);
   },
 
-  list: async function list() {
-    const args = { headers };
+  list: async function list(offset = 0, count = 0) {
+    const args = {
+      headers,
+      parameters: { offset, count },
+    };
     return await getPromise('im.list', args);
   },
 
@@ -302,6 +427,7 @@ export const api = {
   me,
   users,
   channels,
+  groups,
   im,
   chat,
 };

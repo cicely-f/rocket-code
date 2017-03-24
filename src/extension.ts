@@ -21,7 +21,7 @@ export function activate(context: ExtensionContext) {
 
     const channelController = new ChannelController();
     context.subscriptions.push(channelController);
-
+    console.log(config);
     /*********************************************************************************************
      * FUNCTION IMPLEMENTATIONS
      *********************************************************************************************/
@@ -40,7 +40,7 @@ export function activate(context: ExtensionContext) {
             channelController.setChannel(defaultChannel);
         }
         catch (e) {
-            loginError(e);
+            showErrorMessage(e);
         }
     });
     context.subscriptions.push(rcLogin);
@@ -82,8 +82,8 @@ export function activate(context: ExtensionContext) {
      */
 
     const rcListJoinedChannels = commands.registerCommand('rocketCode.listJoinedChannels', async () => {
-        const channels = await api.channels.listJoined();
-        const list = `You have joined the following channels:\n${channels.channels.map(c => c.name).join('\n')}`;
+        const result = await api.channels.listJoined();
+        const list = `You have joined the following channels:\n${result.channels.map(c => c.name).join('\n')}`;
         Output.log(list);
     });
     context.subscriptions.push(rcListJoinedChannels);
@@ -106,19 +106,90 @@ export function activate(context: ExtensionContext) {
                 ignoreFocusOut: true,
                 matchOnDescription: true,
                 matchOnDetail: true,
-                placeHolder: channelController.getChannel().name,
+                placeHolder: channelController.getChannelName(),
             };
             const picked = await window.showQuickPick(items, options);
-            const selectedChannel = result.channels.find(c => c.name === picked.label);
-            if (!!selectedChannel) {
-                channelController.setChannel(selectedChannel);
-                Output.log(`Switched to #${selectedChannel.name}`);
+            if (!!picked) {
+                const selectedChannel = result.channels.find(c => c.name === picked.label);
+                if (!!selectedChannel) {
+                    channelController.setChannel(selectedChannel);
+                    Output.log(`Switched to #${selectedChannel.name}`);
+                }
             }
         } catch (e) {
             showErrorMessage(e);
         }
     });
     context.subscriptions.push(rcSelectChannel);
+
+    /**
+     * listGroups() - log a list of joined groups to the console. probably useless and could be removed
+     */
+
+    const rcListGroups = commands.registerCommand('rocketCode.listGroups', async () => {
+        const result = await api.groups.list();
+        console.log('groups', result);
+        const list = `You have joined the following groups:\n${result.groups.map(c => c.name).join('\n')}`;
+        Output.log(list);
+    });
+    context.subscriptions.push(rcListGroups);
+
+    /**
+     * listIms() - log a list of joined @ims to the console. probably useless and could be removed
+     */
+
+    const rcListIms = commands.registerCommand('rocketCode.listIms', async () => {
+        const result = await api.im.list();
+        console.log('IMs', result);
+        const list = `You have joined the following conversations:\n${result.ims.map(im => im.usernames.filter(n => n !== config.username)).sort().join('\n')}`;
+        Output.log(list);
+    });
+    context.subscriptions.push(rcListIms);
+
+    /**
+     * selectIm() - switch chat to a particular IM conversation
+     */
+
+    const rcSelectIm = commands.registerCommand('rocketChat.selectIm', async () => {
+        try {
+            const result = await api.im.list();
+            const items: QuickPickItem[] = result.ims.map(im => {
+                return {
+                    label: im.usernames.filter(n => n !== config.username).join(', '),
+                    description: im.topic || null,
+                };
+            });
+            const options: QuickPickOptions = {
+                ignoreFocusOut: true,
+                matchOnDescription: true,
+                placeHolder: channelController.getChannelName(),
+            };
+            const picked = await window.showQuickPick(items, options);
+            console.log('PICKED', picked);
+            if (!!picked) {
+                const selectedChannel = result.ims.find(c => c.usernames.indexOf(picked.label) > -1);
+                if (!!selectedChannel) {
+                    channelController.setChannel(selectedChannel);
+                    Output.log(`Switched to @${channelController.getChannelName()}`);
+                }
+            }
+        } catch (e) {
+            showErrorMessage(e);
+        }
+    });
+    context.subscriptions.push(rcSelectIm);
+
+    const rcSetAvatar = commands.registerCommand('rocketChat.setAvatar', async () => {
+        try {
+            const avatarUrl = 'http://lorempixel.com/250/250/cats/';
+            const result = await api.users.setAvatar(avatarUrl);
+            if (!!result.success) {
+                Output.log(`Avatar set to ${avatarUrl}`);
+            }
+        } catch (e) {
+            showErrorMessage(e);
+        }
+    });
 }
 
 // this method is called when the extension is deactivated
