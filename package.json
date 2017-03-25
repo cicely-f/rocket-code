@@ -2,7 +2,7 @@
     "name": "rocket-code",
     "displayName": "Rocket.Code",
     "description": "Use Rocket.Chat from within Visual Studio Code",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "preview": true,
     "publisher": "andrefischer",
     "author": {

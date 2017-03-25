@@ -45,7 +45,8 @@ This allows you to set the ROCKET_* environment variables per directory, and giv
 
 ## Known Issues
 
-Not all features are implemented yet...
+* Not all features are implemented yet...
+* Needs tests...
 
 ## Release Notes
 

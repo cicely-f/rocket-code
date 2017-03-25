@@ -190,6 +190,7 @@ export function activate(context: ExtensionContext) {
             showErrorMessage(e);
         }
     });
+    context.subscriptions.push(rcSetAvatar);
 }
 
 // this method is called when the extension is deactivated

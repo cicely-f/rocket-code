@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to the "rocket-code" extension will be documented in this file.
 
+## 0.0.3 [Unreleased]
+- List @ims
+- Switch between current channel/group/im
+
 ## 0.0.2 [Unreleased]
 - Changed activation event from "*" to login()
 - Added icon for extension
