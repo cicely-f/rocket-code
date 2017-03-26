@@ -3,7 +3,7 @@ import { api } from '../api/rocket-api';
 
 import { showErrorMessage } from '../ui/helpers';
 
-export const miscInfo = commands.registerCommand('rocketCode.misc.info', async () => {
+export const info = commands.registerCommand('rocketCode.misc.info', async () => {
   try {
     const result = await api.misc.info();
     console.log('INFO', result);
@@ -12,6 +12,6 @@ export const miscInfo = commands.registerCommand('rocketCode.misc.info', async (
   }
 });
 
-export default {
-  miscInfo,
+export const misc = {
+  info,
 };

@@ -78,12 +78,44 @@
                 "title": "Rocket.Code: logout"
             },
             {
+                "command": "rocketCode.auth.me",
+                "title": "Rocket.Code: get info about current user (yourself)"
+            },
+            {
                 "command": "rocketCode.misc.info",
                 "title": "Rocket.Code: show info about server"
             },
             {
+                "command": "rocketCode.users.getPresence",
+                "title": "Rocket.Code: get user presence"
+            },
+            {
+                "command": "rocketCode.users.info",
+                "title": "Rocket.Code: get user info"
+            },
+            {
+                "command": "rocketCode.users.list",
+                "title": "Rocket.Code: list users"
+            },
+            {
+                "command": "rocketCode.users.setAvatar",
+                "title": "Rocket.Code: change your Avatar"
+            },
+            {
                 "command": "rocketCode.channels.listJoined",
                 "title": "Rocket.Code: list joined #channels"
+            },
+            {
+                "command": "rocketCode.channels.close",
+                "title": "Rocket.Code: close current channel"
+            },
+            {
+                "command": "rocketCode.channels.create",
+                "title": "Rocket.Code: create new #channel"
+            },
+            {
+                "command": "rocketCode.channels.history",
+                "title": "Rocket.Code: get #channel history"
             },
             {
                 "command": "rocketCode.channels.select",
@@ -96,10 +128,6 @@
             {
                 "command": "rocketCode.ims.select",
                 "title": "Rocket.Code: switch to @conversation"
-            },
-            {
-                "command": "rocketCode.users.setAvatar",
-                "title": "Rocket.Code: change your Avatar"
             },
             {
                 "command": "rocketCode.groups.list",
@@ -126,6 +154,7 @@
     },
     "dependencies": {
         "http-status-codes": "^1.1.6",
-        "node-rest-client": "^3.0.7"
+        "node-rest-client": "^3.0.7",
+        "ramda": "^0.23.0"
     }
 }

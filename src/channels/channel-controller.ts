@@ -20,7 +20,7 @@ interface IChannel {
 
 export class ChannelController {
   private _statusBarItem: StatusBarItem;
-  private _currentChannel: IChannel;
+  private _currentChannel: IChannel | null;
 
   public setChannel(channel) {
     this._currentChannel = channel;
@@ -32,7 +32,7 @@ export class ChannelController {
   }
 
   public getChannelName(): string {
-    return this._currentChannel.name || this._currentChannel.usernames.filter(n => n !== config.username).join(', ');
+    return this._currentChannel && (this._currentChannel.name || this._currentChannel.usernames.filter(n => n !== config.username).join(', '));
   }
 
   public updateStatusBar() {

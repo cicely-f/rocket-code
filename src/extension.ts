@@ -1,5 +1,4 @@
 'use strict';
-// "standard" imports, i.e. 'vscode', node_modules...
 import { ExtensionContext, commands } from 'vscode';
 
 // extension-specific imports
@@ -9,12 +8,12 @@ import Output from './output-channel';
 import { channelController } from './channels/channel-controller';
 import { showErrorMessage } from './ui/helpers';
 
-import { authLogin, authLogout } from './implementations/auth';
-import { miscInfo } from './implementations/misc';
-import { channelsListJoined, channelsSelect } from './implementations/channels';
+import { misc } from './implementations/misc';
+import { auth } from './implementations/auth';
+import { users } from './implementations/users';
+import { channels } from './implementations/channels';
 import { groupsList /* groupsSelect */ } from './implementations/groups';
 import { imsList, imsSelect } from './implementations/ims';
-import { usersSetAvatar } from './implementations/users';
 
 // this method is called when the extension is activated
 export function activate(context: ExtensionContext) {
@@ -26,20 +25,26 @@ export function activate(context: ExtensionContext) {
      * FUNCTION IMPLEMENTATIONS
      *********************************************************************************************/
 
-    context.subscriptions.push(miscInfo);
+    // MISC
+    context.subscriptions.push(misc.info);
 
-    context.subscriptions.push(authLogin);
-    context.subscriptions.push(authLogout);
+    // AUTH
+    for (const f in auth) { context.subscriptions.push(auth[f]); }
 
-    context.subscriptions.push(channelsListJoined);
-    context.subscriptions.push(channelsSelect);
+    // USERS
+    for (const f in users) { context.subscriptions.push(users[f]); }
 
+    // CHANNELS
+    for (const f in channels) { context.subscriptions.push(users[f]); }
+
+    // GROUPS
     context.subscriptions.push(groupsList);
 
+    // IMS
     context.subscriptions.push(imsList);
     context.subscriptions.push(imsSelect);
 
-    context.subscriptions.push(usersSetAvatar);
+    // CHAT
 
     /**
      * testMessage() - send a test message to the default channel TODO: remove this at some point, it's cruft.

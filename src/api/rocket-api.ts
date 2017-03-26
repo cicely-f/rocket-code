@@ -11,7 +11,7 @@ export const headers = {
 };
 
 /**************************************************************************************************************
-AUTHENTICATION this one is a bit special because we have to fiddle with the headers for subsequent api calls
+AUTHENTICATION is a bit special because we have to fiddle with the headers for subsequent api calls
 ***************************************************************************************************************/
 registerClientMethod('login', POST);
 registerClientMethod('logout', GET); // requires auth
