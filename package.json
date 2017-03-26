@@ -86,23 +86,23 @@
                 "title": "Rocket.Code: list joined #channels"
             },
             {
-                "command": "rocketChat.selectChannel",
+                "command": "rocketCode.channels.select",
                 "title": "Rocket.Code: switch to #channel"
             },
             {
-                "command": "rocketCode.listIms",
+                "command": "rocketCode.ims.list",
                 "title": "Rocket.Code: list @conversations"
             },
             {
-                "command": "rocketChat.selectIm",
+                "command": "rocketCode.ims.select",
                 "title": "Rocket.Code: switch to @conversation"
             },
             {
-                "command": "rocketChat.setAvatar",
+                "command": "rocketCode.users.setAvatar",
                 "title": "Rocket.Code: change your Avatar"
             },
             {
-                "command": "rocketCode.listGroups",
+                "command": "rocketCode.groups.list",
                 "title": "Rocket.Code: list Groups"
             },
             {

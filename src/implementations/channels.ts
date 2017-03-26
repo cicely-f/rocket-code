@@ -14,7 +14,7 @@ export const channelsListJoined = commands.registerCommand('rocketCode.channels.
   }
 });
 
-export const channelsSelect = commands.registerCommand('rocketChat.selectChannel', async () => {
+export const channelsSelect = commands.registerCommand('rocketCode.channels.select', async () => {
   try {
     const result = await channels.listJoined();
     const items: QuickPickItem[] = result.channels.map(c => {

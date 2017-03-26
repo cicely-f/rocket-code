@@ -5,7 +5,7 @@ import Output from '../output-channel';
 import { config } from '../config';
 import { channelController } from '../channels/channel-controller';
 
-export const imsList = commands.registerCommand('rocketCode.listIms', async () => {
+export const imsList = commands.registerCommand('rocketCode.ims.list', async () => {
   try {
     const result = await im.list();
     const list = `You have joined the following conversations:\n${result.ims.map(im => im.usernames.filter(n => n !== config.username)).sort().join('\n')}`;
@@ -15,7 +15,7 @@ export const imsList = commands.registerCommand('rocketCode.listIms', async () =
   }
 });
 
-export const imsSelect = commands.registerCommand('rocketChat.selectIm', async () => {
+export const imsSelect = commands.registerCommand('rocketCode.ims.select', async () => {
   try {
     const result = await im.list();
     const items: QuickPickItem[] = result.ims.map(im => {
