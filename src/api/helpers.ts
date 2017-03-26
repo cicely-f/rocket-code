@@ -1,14 +1,18 @@
-import { workspace } from 'vscode';
+
 import { Client } from 'node-rest-client';
 import { headers } from './rocket-api';
+import { config } from '../config';
 
 type restVerb = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'; // for some reason, Rocket.Chat only uses GET and POST... so not really REST :/
+interface IArgs {
+  headers: object;
+  data?: object;
+  parameters?: object;
+}
 
 const client = new Client();
 const status = require('http-status-codes');
-const apiPath = 'api/v1';
-const config = workspace.getConfiguration('rocketCode');
-const serverUrl = config.serverUrl || process.env.ROCKET_SERVER;
+const { server, apiPath } = config;
 // const headers = {
 //   "Content-Type": "application/json",
 // };
@@ -26,23 +30,26 @@ export function getPromise(name, args?) {
   });
 }
 
-export const register = (name, verb: restVerb) => client.registerMethod(name, `${serverUrl}/${apiPath}/${name}`, verb);
+export const registerClientMethod = (name, verb: restVerb) => client.registerMethod(name, `${server}/${apiPath}/${name}`, verb);
 
 // TODO: make this actually work for functions that need data or parameters... :/
-export function generateFn(name: string, verb: restVerb, data?, parameters?) {
-  return async function (data?, parameters?) {
-    const args = {
-      headers,
-      data,
-      parameters,
-    };
-    register(name, verb);
+export function register(name: string, verb: restVerb, opts?) {
+  registerClientMethod(name, verb);
+
+  return async function (opts?) {
+    const args: IArgs = { headers };
+    if (verb === 'POST') {
+      args.data = opts;
+    } else {
+      args.parameters = opts;
+    }
+    console.log(`in generateFn: ${name}, ${JSON.stringify(args)}`);
     return await getPromise(name, args);
   };
 }
 
 export default {
   getPromise,
+  registerClientMethod,
   register,
-  generateFn,
 };

@@ -1,8 +1,8 @@
 import { window, StatusBarItem, StatusBarAlignment } from 'vscode';
-import { isLoggedIn } from '../api/rocket-api';
+import { auth } from '../api/rocket-api';
 import { config } from '../config';
 
-interface ChannelInterface {
+interface IChannel {
   _id: string;
   name?: string;
   t: string;
@@ -20,7 +20,7 @@ interface ChannelInterface {
 
 class ChannelController {
   private _statusBarItem: StatusBarItem;
-  private _currentChannel: ChannelInterface;
+  private _currentChannel: IChannel;
 
   public setChannel(channel) {
     console.log('setting channel', channel);
@@ -41,9 +41,9 @@ class ChannelController {
       this._statusBarItem = window.createStatusBarItem(StatusBarAlignment.Left);
     }
 
-    const loggedInText = `$(rocket) logged ${isLoggedIn() ? 'in' : 'out'}`;
-    const prefix = (!!this._currentChannel && this._currentChannel.t === 'c') ? '#' : '@';
-    const channelText = !!this._currentChannel ? `$(comment-discussion) ${prefix}${this._currentChannel.name}` : null;
+    const loggedInText = `$(rocket) logged ${auth.isLoggedIn() ? 'in' : 'out'}`;
+    const prefix = (!!this._currentChannel && this._currentChannel.t === 'c') ? '# ' : `$(mention) `;
+    const channelText = !!this._currentChannel ? `$(comment-discussion) ${prefix}${this.getChannelName()}` : null;
     this._statusBarItem.text = `${loggedInText} ${channelText}`;
     this._statusBarItem.show();
   }

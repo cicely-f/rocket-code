@@ -30,7 +30,7 @@
         "email": "amfischer@gmail.com"
     },
     "activationEvents": [
-        "onCommand:rocketCode.login"
+        "*"
     ],
     "icon": "./icon128.png",
     "main": "./out/src/extension",
@@ -43,6 +43,11 @@
                     "type": "string",
                     "description": "The URL of the Rocket.Chat server, e.g. https://rocket.example.com"
                 },
+                "rocketCode.apiPath": {
+                    "type": "string",
+                    "default": "api/v1",
+                    "description": "The path of the Rocket.Chat api on the server. Don't change this unless Rocket.Chat releases a new API!"
+                },
                 "rocketCode.username": {
                     "type": "string",
                     "description": "Your username for the Rocket.Chat server"
@@ -54,11 +59,20 @@
                 "rocketCode.channel": {
                     "type": "string",
                     "default": "general",
-                    "description": "The default channel to post to."
+                    "description": "The default channel to post to"
+                },
+                "rocketCode.loginOnStartup": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Login to the Rocket.Chat server when VS Code starts up"
                 }
             }
         },
         "commands": [
+            {
+                "command": "rocketCode.info",
+                "title": "Rocket.Code: show info about server"
+            },
             {
                 "command": "rocketCode.login",
                 "title": "Rocket.Code: login"
@@ -90,6 +104,10 @@
             {
                 "command": "rocketChat.setAvatar",
                 "title": "Rocket.Code: change your Avatar"
+            },
+            {
+                "command": "rocketCode.listGroups",
+                "title": "Rocket.Code: list Groups"
             }
         ]
     },

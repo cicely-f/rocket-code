@@ -21,10 +21,20 @@ export function activate(context: ExtensionContext) {
 
     const channelController = new ChannelController();
     context.subscriptions.push(channelController);
-    console.log(config);
+
     /*********************************************************************************************
      * FUNCTION IMPLEMENTATIONS
      *********************************************************************************************/
+
+    const rcInfo = commands.registerCommand('rocketCode.info', async () => {
+        try {
+            const result = await api.misc.info();
+            console.log('INFO', result);
+        } catch (e) {
+            showErrorMessage(e);
+        }
+    });
+    context.subscriptions.push(rcInfo);
 
     /**
      * login(username, password) - login to the Rocket.Chat server
@@ -32,7 +42,7 @@ export function activate(context: ExtensionContext) {
 
     const rcLogin = commands.registerCommand('rocketCode.login', async () => {
         try {
-            await api.login(config.username, config.password);
+            await api.auth.login(config.username, config.password);
             Output.log(`Logged in on '${config.server}' as user '${config.username}'`);
             channelController.updateStatusBar();
             const channels = await api.channels.listJoined();
@@ -40,7 +50,7 @@ export function activate(context: ExtensionContext) {
             channelController.setChannel(defaultChannel);
         }
         catch (e) {
-            showErrorMessage(e);
+            loginError(e);
         }
     });
     context.subscriptions.push(rcLogin);
@@ -51,7 +61,7 @@ export function activate(context: ExtensionContext) {
 
     const rcLogout = commands.registerCommand('rocketCode.logout', async () => {
         try {
-            await api.logout();
+            await api.auth.logout();
             Output.log(`You logged out of Rocket.Chat`);
             channelController.updateStatusBar();
         } catch (e) {
@@ -71,7 +81,7 @@ export function activate(context: ExtensionContext) {
         const testChannel = channels.channels.find(c => c.name === config.defaultChannel);
         channelController.setChannel(testChannel);
         try {
-            const result = await api.chat.postMessage(testChannel._id, testMessage);
+            const result = await api.chat.postMessage({ roomId: testChannel._id, text: testMessage });
             console.log(result);
         } catch (e) { showErrorMessage(e); console.log(e); }
     });
@@ -182,7 +192,7 @@ export function activate(context: ExtensionContext) {
     const rcSetAvatar = commands.registerCommand('rocketChat.setAvatar', async () => {
         try {
             const avatarUrl = 'http://lorempixel.com/250/250/cats/';
-            const result = await api.users.setAvatar(avatarUrl);
+            const result = await api.users.setAvatar({ avatarUrl });
             if (!!result.success) {
                 Output.log(`Avatar set to ${avatarUrl}`);
             }
@@ -190,7 +200,12 @@ export function activate(context: ExtensionContext) {
             showErrorMessage(e);
         }
     });
+
     context.subscriptions.push(rcSetAvatar);
+    if (config.loginOnStartup) {
+        commands.executeCommand('rocketCode.login').then();
+    }
+
 }
 
 // this method is called when the extension is deactivated

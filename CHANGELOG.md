@@ -2,6 +2,8 @@
 All notable changes to the "rocket-code" extension will be documented in this file.
 
 ## 0.0.3 [Unreleased]
+- Refactored API
+- Added auto-login on startup option
 - List @ims
 - Switch between current channel/group/im
 
