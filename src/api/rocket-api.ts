@@ -10,7 +10,9 @@ export const headers = {
   "Content-Type": "application/json",
 };
 
-/** AUTHENTICATION this one is a bit special because we have to fiddle with the headers for subsequent api calls */
+/**************************************************************************************************************
+AUTHENTICATION this one is a bit special because we have to fiddle with the headers for subsequent api calls
+***************************************************************************************************************/
 registerClientMethod('login', POST);
 registerClientMethod('logout', GET); // requires auth
 
@@ -38,13 +40,16 @@ export const auth = {
   isLoggedIn: (): boolean => !!headers["X-User-Id"] && !!headers["X-Auth-Token"],
 };
 
-/** MISCELLANEOUS */
-
+/**************************************************************************************************************
+MISCELLANEOUS
+***************************************************************************************************************/
 export const misc = {
   info: register('info', GET),
 };
 
-/** USERS */
+/**************************************************************************************************************
+USERS
+***************************************************************************************************************/
 export const users = {
   getPresence: register('users.getPresence', GET),
   info: register('users.info', GET),
@@ -52,7 +57,9 @@ export const users = {
   setAvatar: register('users.setAvatar', POST),
 };
 
-/** CHANNELS */
+/**************************************************************************************************************
+CHANNELS
+***************************************************************************************************************/
 export const channels = {
   close: register('channels.close', POST),
   create: register('channels.create', POST),
@@ -69,7 +76,9 @@ export const channels = {
   setTopic: register('channels.setTopic', POST),
 };
 
-/** GROUPS */
+/**************************************************************************************************************
+GROUPS
+***************************************************************************************************************/
 export const groups = {
   close: register('groups.close', POST),
   create: register('groups.create', POST),
@@ -85,7 +94,9 @@ export const groups = {
   setTopic: register('groups.setTopic', POST),
 };
 
-/** INSTANT MESSAGES */
+/**************************************************************************************************************
+INSTANT MESSAGES
+***************************************************************************************************************/
 export const im = {
   close: register('im.close', POST),
   history: register('im.history', GET),
@@ -95,14 +106,18 @@ export const im = {
   setTopic: register('im.setTopic', POST),
 };
 
-/** CHAT */
+/**************************************************************************************************************
+CHAT
+***************************************************************************************************************/
 export const chat = {
   delete: register('chat.delete', POST),
   postMessage: register('chat.postMessage', POST),
   update: register('chat.update', POST),
 };
 
-/** EXPORT COMPLETE API */
+/**************************************************************************************************************
+COMPLETE API
+***************************************************************************************************************/
 export const api = {
   headers,
   auth,

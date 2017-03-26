@@ -32,7 +32,6 @@ export function getPromise(name, args?) {
 
 export const registerClientMethod = (name, verb: restVerb) => client.registerMethod(name, `${server}/${apiPath}/${name}`, verb);
 
-// TODO: make this actually work for functions that need data or parameters... :/
 export function register(name: string, verb: restVerb, opts?) {
   registerClientMethod(name, verb);
 

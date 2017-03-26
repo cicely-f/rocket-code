@@ -27,7 +27,6 @@ class RocketCodeOutput {
   }
 }
 
-const Output = new RocketCodeOutput
-  ();
+const Output = new RocketCodeOutput();
 
 export default Output;

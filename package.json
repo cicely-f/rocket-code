@@ -70,23 +70,23 @@
         },
         "commands": [
             {
-                "command": "rocketCode.info",
-                "title": "Rocket.Code: show info about server"
-            },
-            {
-                "command": "rocketCode.login",
+                "command": "rocketCode.auth.login",
                 "title": "Rocket.Code: login"
             },
             {
-                "command": "rocketCode.logout",
+                "command": "rocketCode.auth.logout",
                 "title": "Rocket.Code: logout"
+            },
+            {
+                "command": "rocketCode.misc.info",
+                "title": "Rocket.Code: show info about server"
             },
             {
                 "command": "rocketCode.testMessage",
                 "title": "Rocket.Code: send test message"
             },
             {
-                "command": "rocketCode.listJoinedChannels",
+                "command": "rocketCode.channels.listJoined",
                 "title": "Rocket.Code: list joined #channels"
             },
             {

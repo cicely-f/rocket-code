@@ -18,12 +18,11 @@ interface IChannel {
   _updatedAt: string;
 }
 
-class ChannelController {
+export class ChannelController {
   private _statusBarItem: StatusBarItem;
   private _currentChannel: IChannel;
 
   public setChannel(channel) {
-    console.log('setting channel', channel);
     this._currentChannel = channel;
     this.updateStatusBar();
   }
@@ -52,4 +51,9 @@ class ChannelController {
   }
 }
 
-export default ChannelController;
+export const channelController = new ChannelController();
+
+export default {
+  channelController,
+  ChannelController,
+};
