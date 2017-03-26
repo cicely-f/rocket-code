@@ -43,7 +43,6 @@ export function register(name: string, verb: restVerb, opts?) {
     } else {
       args.parameters = opts;
     }
-    console.log(`in generateFn: ${name}, ${JSON.stringify(args)}`);
     return await getPromise(name, args);
   };
 }

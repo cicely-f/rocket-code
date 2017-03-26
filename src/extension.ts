@@ -8,17 +8,28 @@ import { api } from './api/rocket-api';
 import Output from './output-channel';
 import ChannelController from './channels/channel-controller';
 
+const responseStatus = require('http-status-codes');
 // temporary error message functions. TODO: make this into something more flexible and robust.
 const loginError = reason => window.showErrorMessage(`Error logging in. Please check your credentials.`);
 
 const showErrorMessage = error => {
-    window.showErrorMessage(`An Error occurred: ${JSON.stringify(error)}`);
     console.log('Rocket.Chat error:', error);
+    const code = error.statusCode || null;
+    let errorMessage;
+    switch (code) {
+        case responseStatus.UNAUTHORIZED:
+            errorMessage = 'You must log in to Rocket.Chat before doing this.';
+            break;
+        default:
+            errorMessage = `Rocket.Chat error: ${responseStatus.getStatusText(code)}`;
+    }
+    window.showErrorMessage(errorMessage);
 };
 
 // this method is called when the extension is activated
 export function activate(context: ExtensionContext) {
 
+    Output.log('Rocket.Code starting up...');
     const channelController = new ChannelController();
     context.subscriptions.push(channelController);
 
@@ -83,7 +94,9 @@ export function activate(context: ExtensionContext) {
         try {
             const result = await api.chat.postMessage({ roomId: testChannel._id, text: testMessage });
             console.log(result);
-        } catch (e) { showErrorMessage(e); console.log(e); }
+        } catch (e) {
+            showErrorMessage(e);
+        }
     });
     context.subscriptions.push(rcTestMessage);
 
@@ -92,9 +105,13 @@ export function activate(context: ExtensionContext) {
      */
 
     const rcListJoinedChannels = commands.registerCommand('rocketCode.listJoinedChannels', async () => {
-        const result = await api.channels.listJoined();
-        const list = `You have joined the following channels:\n${result.channels.map(c => c.name).join('\n')}`;
-        Output.log(list);
+        try {
+            const result = await api.channels.listJoined();
+            const list = `You have joined the following channels:\n${result.channels.map(c => c.name).join('\n')}`;
+            Output.log(list);
+        } catch (e) {
+            showErrorMessage(e);
+        }
     });
     context.subscriptions.push(rcListJoinedChannels);
 
@@ -137,10 +154,13 @@ export function activate(context: ExtensionContext) {
      */
 
     const rcListGroups = commands.registerCommand('rocketCode.listGroups', async () => {
-        const result = await api.groups.list();
-        console.log('groups', result);
-        const list = `You have joined the following groups:\n${result.groups.map(c => c.name).join('\n')}`;
-        Output.log(list);
+        try {
+            const result = await api.groups.list();
+            const list = `You have joined the following groups:\n${result.groups.map(c => c.name).join('\n')}`;
+            Output.log(list);
+        } catch (e) {
+            showErrorMessage(e);
+        }
     });
     context.subscriptions.push(rcListGroups);
 
@@ -149,10 +169,13 @@ export function activate(context: ExtensionContext) {
      */
 
     const rcListIms = commands.registerCommand('rocketCode.listIms', async () => {
-        const result = await api.im.list();
-        console.log('IMs', result);
-        const list = `You have joined the following conversations:\n${result.ims.map(im => im.usernames.filter(n => n !== config.username)).sort().join('\n')}`;
-        Output.log(list);
+        try {
+            const result = await api.im.list();
+            const list = `You have joined the following conversations:\n${result.ims.map(im => im.usernames.filter(n => n !== config.username)).sort().join('\n')}`;
+            Output.log(list);
+        } catch (e) {
+            showErrorMessage(e);
+        }
     });
     context.subscriptions.push(rcListIms);
 
