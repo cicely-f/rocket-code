@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/andre-f/rocket-code.png?label=ready&title=Ready)](https://waffle.io/andre-f/rocket-code)
 ![logo](icon128.png)
 # Rocket.Code
 
