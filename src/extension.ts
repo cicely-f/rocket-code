@@ -14,6 +14,7 @@ import { users } from './implementations/users';
 import { channels } from './implementations/channels';
 import { groupsList /* groupsSelect */ } from './implementations/groups';
 import { imsList, imsSelect } from './implementations/ims';
+import { selectRoom } from './implementations/rooms';
 
 // this method is called when the extension is activated
 export function activate(context: ExtensionContext) {
@@ -44,6 +45,8 @@ export function activate(context: ExtensionContext) {
     context.subscriptions.push(imsList);
     context.subscriptions.push(imsSelect);
 
+    // ROOMS
+    context.subscriptions.push(selectRoom);
     // CHAT
 
     /**

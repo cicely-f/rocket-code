@@ -42,8 +42,8 @@ export const history = commands.registerCommand('rocketCode.channels.history', a
   try {
     const roomId = channelController.getChannel()._id;
     const result = await api.channels.history({ roomId });
-    const messages = R.reverse(result.messages.filter(m => !!m.msg));
-    const messageOutput = messages.map(m => `${m.u.username}: ${m.msg}`).join('\n');
+    const messages = R.reverse(result.messages.filter(m => m));
+    const messageOutput = messages.map(m => `${m.u.username}: ${m.t || null} - ${m.msg}`).join('\n');
     Output.log(`History for: ${channelController.getChannelName()}\n${messageOutput}`);
   } catch (e) {
     showErrorMessage(e);

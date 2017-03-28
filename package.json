@@ -136,6 +136,10 @@
             {
                 "command": "rocketCode.testMessage",
                 "title": "Rocket.Code: send test message"
+            },
+            {
+                "command": "rocketCode.rooms.select",
+                "title": "Rocket.Code: select current channel/group/conversation"
             }
         ]
     },

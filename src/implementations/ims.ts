@@ -1,13 +1,13 @@
 import { window, commands, QuickPickItem, QuickPickOptions } from 'vscode';
 import { showErrorMessage } from '../ui/helpers';
-import { im } from '../api/rocket-api';
+import { api } from '../api/rocket-api';
 import Output from '../output-channel';
 import { config } from '../config';
 import { channelController } from '../channels/channel-controller';
 
 export const imsList = commands.registerCommand('rocketCode.ims.list', async () => {
   try {
-    const result = await im.list();
+    const result = await api.im.list();
     const list = `You have joined the following conversations:\n${result.ims.map(im => im.usernames.filter(n => n !== config.username)).sort().join('\n')}`;
     Output.log(list);
   } catch (e) {
@@ -17,7 +17,7 @@ export const imsList = commands.registerCommand('rocketCode.ims.list', async () 
 
 export const imsSelect = commands.registerCommand('rocketCode.ims.select', async () => {
   try {
-    const result = await im.list();
+    const result = await api.im.list();
     const items: QuickPickItem[] = result.ims.map(im => {
       return {
         label: im.usernames.filter(n => n !== config.username).join(', '),
