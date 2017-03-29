@@ -1,6 +1,14 @@
 # Change Log
 All notable changes to the "rocket-code" extension will be documented in this file.
 
+## 0.1.0 [2017-03-29]
+- First release
+
+## 0.0.4 [Unreleased]
+- Added switching rooms (channel, group, im)
+- Added sending message to current room
+- Added sending selection in current editor to current room
+
 ## 0.0.3 [Unreleased]
 - Refactored implementations of extension functions
 - Refactored API

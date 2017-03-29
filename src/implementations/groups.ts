@@ -1,12 +1,12 @@
 import { commands } from 'vscode';
 import { showErrorMessage } from '../ui/helpers';
-import { groups } from '../api/rocket-api';
+import { api } from '../api/rocket-api';
 import Output from '../output-channel';
 // import { channelController } from '../channels/channel-controller';
 
 export const groupsList = commands.registerCommand('rocketCode.groups.list', async () => {
   try {
-    const result = await groups.list();
+    const result = await api.groups.list();
     const list = `You have joined the following groups:\n${result.groups.map(c => c.name).join('\n')}`;
     Output.log(list);
   } catch (e) {
@@ -14,6 +14,6 @@ export const groupsList = commands.registerCommand('rocketCode.groups.list', asy
   }
 });
 
-export default {
+export const groups = {
   groupsList,
 };

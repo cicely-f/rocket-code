@@ -5,7 +5,7 @@ import Output from '../output-channel';
 import { config } from '../config';
 import { channelController } from '../channels/channel-controller';
 
-export const selectRoom = commands.registerCommand('rocketCode.rooms.select', async () => {
+export const select = commands.registerCommand('rocketCode.rooms.select', async () => {
   try {
 
     const roomTypes: QuickPickItem[] = [
@@ -52,7 +52,6 @@ export const selectRoom = commands.registerCommand('rocketCode.rooms.select', as
         placeHolder: channelController.getChannelName(),
       };
       const picked: QuickPickItem = await window.showQuickPick(items, options);
-      console.log('PICKED', picked);
       if (!!picked) {
         const selectedChannel = result[roomType.label].find(c => {
           if (c.name) {
@@ -73,6 +72,6 @@ export const selectRoom = commands.registerCommand('rocketCode.rooms.select', as
   }
 });
 
-export default {
-  selectRoom,
+export const rooms = {
+  select,
 };

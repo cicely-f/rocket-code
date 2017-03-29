@@ -78,14 +78,6 @@
                 "title": "Rocket.Code: logout"
             },
             {
-                "command": "rocketCode.auth.me",
-                "title": "Rocket.Code: get info about current user (yourself)"
-            },
-            {
-                "command": "rocketCode.misc.info",
-                "title": "Rocket.Code: show info about server"
-            },
-            {
                 "command": "rocketCode.users.getPresence",
                 "title": "Rocket.Code: get user presence"
             },
@@ -134,12 +126,30 @@
                 "title": "Rocket.Code: list Groups"
             },
             {
-                "command": "rocketCode.testMessage",
-                "title": "Rocket.Code: send test message"
-            },
-            {
                 "command": "rocketCode.rooms.select",
                 "title": "Rocket.Code: select current channel/group/conversation"
+            },
+            {
+                "command": "rocketCode.chat.postMessage",
+                "title": "Rocket.Code: send message to current room"
+            },
+            {
+                "command": "rocketCode.chat.postSelection",
+                "title": "Rocket.Code: send selection to current room"
+            }
+        ],
+        "keybindings": [
+            {
+                "command": "rocketCode.chat.postMessage",
+                "key": "ctrl+shift+enter",
+                "mac": "cmd+shift+enter",
+                "when": "!editorHasSelection"
+            },
+            {
+                "command": "rocketCode.chat.postSelection",
+                "key": "ctrl+shift+enter",
+                "mac": "cmd+shift+enter",
+                "when": "editorHasSelection"
             }
         ]
     },

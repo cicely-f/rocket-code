@@ -5,7 +5,7 @@ const responseStatus = require('http-status-codes');
 export const loginError = reason => window.showErrorMessage(`Error logging in. Please check your credentials.`);
 
 export const showErrorMessage = error => {
-  console.log('Rocket.Chat error:', error);
+  console.error('Rocket.Chat error:', error);
   const code = error.statusCode || null;
   let errorMessage;
   switch (code) {

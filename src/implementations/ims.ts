@@ -5,7 +5,7 @@ import Output from '../output-channel';
 import { config } from '../config';
 import { channelController } from '../channels/channel-controller';
 
-export const imsList = commands.registerCommand('rocketCode.ims.list', async () => {
+export const list = commands.registerCommand('rocketCode.ims.list', async () => {
   try {
     const result = await api.im.list();
     const list = `You have joined the following conversations:\n${result.ims.map(im => im.usernames.filter(n => n !== config.username)).sort().join('\n')}`;
@@ -15,7 +15,7 @@ export const imsList = commands.registerCommand('rocketCode.ims.list', async () 
   }
 });
 
-export const imsSelect = commands.registerCommand('rocketCode.ims.select', async () => {
+export const select = commands.registerCommand('rocketCode.ims.select', async () => {
   try {
     const result = await api.im.list();
     const items: QuickPickItem[] = result.ims.map(im => {
@@ -30,7 +30,6 @@ export const imsSelect = commands.registerCommand('rocketCode.ims.select', async
       placeHolder: channelController.getChannelName(),
     };
     const picked = await window.showQuickPick(items, options);
-    console.log('PICKED', picked);
     if (!!picked) {
       const selectedChannel = result.ims.find(c => c.usernames.indexOf(picked.label) > -1);
       if (!!selectedChannel) {
@@ -43,7 +42,7 @@ export const imsSelect = commands.registerCommand('rocketCode.ims.select', async
   }
 });
 
-export default {
-  imsList,
-  imsSelect,
+export const ims = {
+  list,
+  select,
 };
