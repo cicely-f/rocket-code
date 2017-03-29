@@ -1,7 +1,7 @@
 [![Stories in Ready](https://badge.waffle.io/andre-f/rocket-code.png?label=ready&title=Ready)](https://waffle.io/andre-f/rocket-code)
 
 
-![logo](icon128.png)
+![logo](images/icon128.png)
 # Rocket.Code
 
 This Extension lets you post to Rocket.Chat from within Visual Studio Code. It supports channels, groups and instant messages, as well as posting code snippets.
