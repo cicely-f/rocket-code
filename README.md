@@ -13,10 +13,15 @@ The Extension loads when you call the "Rocket.Code login" command from the palet
 * switch between joined channels, groups and instant messages (aka _rooms_)
 * Post a message to the current room (if nothing is selected in the current editor)
 * Post code snippet to the current room (if text is selected in the editor, it will be included in a code fence)
+* View the conversation in the current room in an editor pane (similar to Markdown preview)
 
 ## Requirements
 
 Visual Studio Code (obviously).
+
+## Key Bindings
+
+Currently, only `Ctrl-Shift-Enter` (`Cmd-Shift-Enter` on Mac), which either sends the selection to the current room, or else asks you for a message to send.
 
 ## Extension Settings
 
@@ -28,10 +33,6 @@ This extension contributes the following settings:
 * `rocketCode.password`: Your Rocket.Chat password
 * `rocketCode.channel`: The default channel to post to (you can post to a different #channel/@DM at any time)
 * `rocketCode.loginOnStartup`: Whether to connect to Rocket.Chat when VSCode starts. `false` by default.
-
-## Key Bindings
-
-Currently, only `Ctrl-Shift-Enter` (`Cmd-Shift-Enter` on Mac), which either sends the selection to the current room, or else asks you for a message to send.
 
 ### Using Environment Variables and/or the workspace
 
@@ -55,7 +56,7 @@ This allows you to set the `ROCKET_*` environment variables per directory, and g
 
 ## Planned Features
 
-* Side view of the current room's conversation - allow you to follow the chat without Alt-Tabbing to your Rocket.Chat client
+* Improve the side view of the current room's conversation - code fences, images, etc.
 * Edit or delete the last message
 * ??? (suggestions welcome)
 

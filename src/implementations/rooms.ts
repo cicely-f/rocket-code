@@ -1,9 +1,10 @@
-import { window, commands, QuickPickItem, QuickPickOptions } from 'vscode';
+import { window, workspace, commands, QuickPickItem, QuickPickOptions, ViewColumn, Uri } from 'vscode';
 import { showErrorMessage } from '../ui/helpers';
 import { api } from '../api/rocket-api';
 import Output from '../output-channel';
 import { config } from '../config';
 import { channelController } from '../channels/channel-controller';
+import { roomContents } from '../channels/room-content-provider';
 
 export const select = commands.registerCommand('rocketCode.rooms.select', async () => {
   try {
@@ -62,7 +63,10 @@ export const select = commands.registerCommand('rocketCode.rooms.select', async 
         });
         if (!!selectedChannel) {
           channelController.setChannel(selectedChannel);
-          Output.log(`Switched to ${channelController.getChannelName()}`);
+          const roomName = channelController.getChannelName();
+          const previewUri = Uri.parse(`rocket-room://authority/rocket-room`);
+          roomContents.update(previewUri);
+          Output.log(`Switched to ${roomName}`);
         }
       }
     }
@@ -72,6 +76,33 @@ export const select = commands.registerCommand('rocketCode.rooms.select', async 
   }
 });
 
+export const registration = workspace.registerTextDocumentContentProvider('rocket-room', roomContents);
+
+export const view = commands.registerCommand('rocketCode.rooms.view', async () => {
+  try {
+    const roomName = channelController.getChannelName();
+    const previewUri = Uri.parse(`rocket-room://authority/rocket-room`);
+    const updateInterval = 1000; // update room every second
+    const periodicUpdate = setInterval(() => {
+      roomContents.update(previewUri);
+    }, updateInterval);
+
+    roomContents.update(previewUri);
+
+    await commands.executeCommand('vscode.previewHtml', previewUri, ViewColumn.Two, 'Rocket.Code Room View');
+    const roomDocument = workspace.textDocuments.find(d => d.fileName === '\\rocket-room');
+    workspace.onDidCloseTextDocument(e => {
+      if (e === roomDocument) {
+        clearInterval(periodicUpdate);
+      }
+    });
+  } catch (e) {
+    showErrorMessage(e);
+  }
+});
+
 export const rooms = {
   select,
+  view,
+  registration,
 };

@@ -1,6 +1,9 @@
 # Change Log
 All notable changes to the "rocket-code" extension will be documented in this file.
 
+## 0.2.0 [2017-03-30]
+- Room conversation view in editor column two (still lacks support for code fences and images - coming soon!)
+
 ## 0.1.0 [2017-03-29]
 - First release
 

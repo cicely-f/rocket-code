@@ -2,7 +2,7 @@
     "name": "rocket-code",
     "displayName": "Rocket.Code",
     "description": "Use Rocket.Chat from within Visual Studio Code",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "preview": true,
     "publisher": "andrefischer",
     "author": {
@@ -130,6 +130,10 @@
                 "title": "Rocket.Code: select current channel/group/conversation"
             },
             {
+                "command": "rocketCode.rooms.view",
+                "title": "Rocket.Code: view current room's conversation"
+            },
+            {
                 "command": "rocketCode.chat.postMessage",
                 "title": "Rocket.Code: send message to current room"
             },
@@ -168,6 +172,7 @@
     },
     "dependencies": {
         "http-status-codes": "^1.1.6",
+        "moment": "^2.18.1",
         "node-rest-client": "^3.0.7",
         "ramda": "^0.23.0"
     }
