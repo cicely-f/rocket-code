@@ -1,6 +1,9 @@
 # Change Log
 All notable changes to the "rocket-code" extension will be documented in this file.
 
+## 0.2.1 [2017-04-03]
+- Replace CRLF in selected text with LF to avoid double-spacing in Rocket.Chat code fences
+
 ## 0.2.0 [2017-03-30]
 - Room conversation view in editor column two (still lacks support for code fences and images - coming soon!)
 
