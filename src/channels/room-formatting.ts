@@ -1,7 +1,16 @@
 const moment = require('moment');
+const showdown = require('showdown');
+const converter = new showdown.Converter({
+  omitExtraWLInCodeBlocks: true,
+  simplifiedAutoLink: true,
+  excludeTrailingPunctuationFromURLs: true,
+  strikethrough: true,
+  simpleLineBreaks: true,
+});
+converter.setFlavor('github');
 
 export const formatRoomContents = (title, messages) => {
-  return stylesheet + roomTitle(title) + messageList(messages);
+  return stylesheet + roomTitle(title) + converter.makeHtml(messageList(messages));
 };
 
 const roomTitle = title => {
@@ -11,20 +20,23 @@ const roomTitle = title => {
 const messageList = messages => {
   const start = '<div class="message-list">';
   const end = '</div>';
-  return start + messages.map(m => formattedMessage(m)).join('') + end;
+  return start + messages.map(m => formattedMessage(m)).join('\n\n') + end;
 };
 
 const formattedMessage = message => {
+  // console.log(message);
   return '<div class="message-container">' + userName(message) + messageBody(message) + urls(message) + '</div>';
+  // return '**' + userName(message) + '**: ' + messageBody(message);
 };
 
 const userName = message => {
   const name = message.alias || message.u.username;
   const time = moment(message.ts).fromNow();
   return `<span class="username" title="${time}">${name}</span>: `;
+  // return name;
 };
 
-const messageBody = message => message.msg;
+const messageBody = message => ((message.msg.substring(0, 3) === '```') ? '\n' : '') + message.msg;
 
 const urls = message => {
   if (message.urls) {
@@ -66,6 +78,11 @@ const stylesheet = `<style type="text/css">
 
   .link {
     color: white;
+  }
+
+  pre {
+    border: 1px solid grey;
+    padding: 4px;
   }
   </style>`;
 

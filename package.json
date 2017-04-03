@@ -1,179 +1,180 @@
 {
-    "name": "rocket-code",
-    "displayName": "Rocket.Code",
-    "description": "Use Rocket.Chat from within Visual Studio Code",
-    "version": "0.2.1",
-    "preview": true,
-    "publisher": "andrefischer",
-    "author": {
-        "name": "André Fischer",
-        "email": "amfischer@gmail.com"
-    },
-    "engines": {
-        "vscode": "^1.10.0"
-    },
-    "categories": [
-        "Other"
-    ],
-    "keywords": [
-        "rocketchat",
-        "Rocket.Chat",
-        "chat"
-    ],
-    "license": "CC-BY-NC-SA-4.0",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/andre-f/rocket-code.git"
-    },
-    "bugs": {
-        "url": "https://github.com/andre-f/rocket-code/issues",
-        "email": "amfischer@gmail.com"
-    },
-    "activationEvents": [
-        "*"
-    ],
-    "icon": "images/icon128.png",
-    "main": "./out/src/extension",
-    "contributes": {
-        "configuration": {
-            "type": "object",
-            "title": "Rocket.Code configuration",
-            "properties": {
-                "rocketCode.serverUrl": {
-                    "type": "string",
-                    "description": "The URL of the Rocket.Chat server, e.g. https://rocket.example.com"
-                },
-                "rocketCode.apiPath": {
-                    "type": "string",
-                    "default": "api/v1",
-                    "description": "The path of the Rocket.Chat api on the server. Don't change this unless Rocket.Chat releases a new API!"
-                },
-                "rocketCode.username": {
-                    "type": "string",
-                    "description": "Your username for the Rocket.Chat server"
-                },
-                "rocketCode.password": {
-                    "type": "string",
-                    "description": "Your password for the Rocket.Chat server (optional, if not supplied, you'll be prompted)"
-                },
-                "rocketCode.channel": {
-                    "type": "string",
-                    "default": "general",
-                    "description": "The default channel to post to"
-                },
-                "rocketCode.loginOnStartup": {
-                    "type": "boolean",
-                    "default": false,
-                    "description": "Login to the Rocket.Chat server when VS Code starts up"
-                }
-            }
+  "name": "rocket-code",
+  "displayName": "Rocket.Code",
+  "description": "Use Rocket.Chat from within Visual Studio Code",
+  "version": "0.2.1",
+  "preview": true,
+  "publisher": "andrefischer",
+  "author": {
+    "name": "André Fischer",
+    "email": "amfischer@gmail.com"
+  },
+  "engines": {
+    "vscode": "^1.10.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "keywords": [
+    "rocketchat",
+    "Rocket.Chat",
+    "chat"
+  ],
+  "license": "CC-BY-NC-SA-4.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/andre-f/rocket-code.git"
+  },
+  "bugs": {
+    "url": "https://github.com/andre-f/rocket-code/issues",
+    "email": "amfischer@gmail.com"
+  },
+  "activationEvents": [
+    "*"
+  ],
+  "icon": "images/icon128.png",
+  "main": "./out/src/extension",
+  "contributes": {
+    "configuration": {
+      "type": "object",
+      "title": "Rocket.Code configuration",
+      "properties": {
+        "rocketCode.serverUrl": {
+          "type": "string",
+          "description": "The URL of the Rocket.Chat server, e.g. https://rocket.example.com"
         },
-        "commands": [
-            {
-                "command": "rocketCode.auth.login",
-                "title": "Rocket.Code: login"
-            },
-            {
-                "command": "rocketCode.auth.logout",
-                "title": "Rocket.Code: logout"
-            },
-            {
-                "command": "rocketCode.users.getPresence",
-                "title": "Rocket.Code: get user presence"
-            },
-            {
-                "command": "rocketCode.users.info",
-                "title": "Rocket.Code: get user info"
-            },
-            {
-                "command": "rocketCode.users.list",
-                "title": "Rocket.Code: list users"
-            },
-            {
-                "command": "rocketCode.users.setAvatar",
-                "title": "Rocket.Code: change your Avatar"
-            },
-            {
-                "command": "rocketCode.channels.listJoined",
-                "title": "Rocket.Code: list joined #channels"
-            },
-            {
-                "command": "rocketCode.channels.close",
-                "title": "Rocket.Code: close current channel"
-            },
-            {
-                "command": "rocketCode.channels.create",
-                "title": "Rocket.Code: create new #channel"
-            },
-            {
-                "command": "rocketCode.channels.history",
-                "title": "Rocket.Code: get #channel history"
-            },
-            {
-                "command": "rocketCode.channels.select",
-                "title": "Rocket.Code: switch to #channel"
-            },
-            {
-                "command": "rocketCode.ims.list",
-                "title": "Rocket.Code: list @conversations"
-            },
-            {
-                "command": "rocketCode.ims.select",
-                "title": "Rocket.Code: switch to @conversation"
-            },
-            {
-                "command": "rocketCode.groups.list",
-                "title": "Rocket.Code: list Groups"
-            },
-            {
-                "command": "rocketCode.rooms.select",
-                "title": "Rocket.Code: select current channel/group/conversation"
-            },
-            {
-                "command": "rocketCode.rooms.view",
-                "title": "Rocket.Code: view current room's conversation"
-            },
-            {
-                "command": "rocketCode.chat.postMessage",
-                "title": "Rocket.Code: send message to current room"
-            },
-            {
-                "command": "rocketCode.chat.postSelection",
-                "title": "Rocket.Code: send selection to current room"
-            }
-        ],
-        "keybindings": [
-            {
-                "command": "rocketCode.chat.postMessage",
-                "key": "ctrl+shift+enter",
-                "mac": "cmd+shift+enter",
-                "when": "!editorHasSelection"
-            },
-            {
-                "command": "rocketCode.chat.postSelection",
-                "key": "ctrl+shift+enter",
-                "mac": "cmd+shift+enter",
-                "when": "editorHasSelection"
-            }
-        ]
+        "rocketCode.apiPath": {
+          "type": "string",
+          "default": "api/v1",
+          "description": "The path of the Rocket.Chat api on the server. Don't change this unless Rocket.Chat releases a new API!"
+        },
+        "rocketCode.username": {
+          "type": "string",
+          "description": "Your username for the Rocket.Chat server"
+        },
+        "rocketCode.password": {
+          "type": "string",
+          "description": "Your password for the Rocket.Chat server (optional, if not supplied, you'll be prompted)"
+        },
+        "rocketCode.channel": {
+          "type": "string",
+          "default": "general",
+          "description": "The default channel to post to"
+        },
+        "rocketCode.loginOnStartup": {
+          "type": "boolean",
+          "default": false,
+          "description": "Login to the Rocket.Chat server when VS Code starts up"
+        }
+      }
     },
-    "scripts": {
-        "vscode:prepublish": "tsc -p ./",
-        "compile": "tsc -watch -p ./",
-        "postinstall": "node ./node_modules/vscode/bin/install",
-        "test": "node ./node_modules/vscode/bin/test"
-    },
-    "devDependencies": {
-        "@types/mocha": "^2.2.32",
-        "@types/node": "^6.0.40",
-        "mocha": "^2.3.3",
-        "typescript": "^2.0.3",
-        "vscode": "^1.0.0"
-    },
-    "dependencies": {
-        "http-status-codes": "^1.1.6",
-        "moment": "^2.18.1",
-        "node-rest-client": "^3.0.7",
-        "ramda": "^0.23.0"
-    }
+    "commands": [
+      {
+        "command": "rocketCode.auth.login",
+        "title": "Rocket.Code: login"
+      },
+      {
+        "command": "rocketCode.auth.logout",
+        "title": "Rocket.Code: logout"
+      },
+      {
+        "command": "rocketCode.users.getPresence",
+        "title": "Rocket.Code: get user presence"
+      },
+      {
+        "command": "rocketCode.users.info",
+        "title": "Rocket.Code: get user info"
+      },
+      {
+        "command": "rocketCode.users.list",
+        "title": "Rocket.Code: list users"
+      },
+      {
+        "command": "rocketCode.users.setAvatar",
+        "title": "Rocket.Code: change your Avatar"
+      },
+      {
+        "command": "rocketCode.channels.listJoined",
+        "title": "Rocket.Code: list joined #channels"
+      },
+      {
+        "command": "rocketCode.channels.close",
+        "title": "Rocket.Code: close current channel"
+      },
+      {
+        "command": "rocketCode.channels.create",
+        "title": "Rocket.Code: create new #channel"
+      },
+      {
+        "command": "rocketCode.channels.history",
+        "title": "Rocket.Code: get #channel history"
+      },
+      {
+        "command": "rocketCode.channels.select",
+        "title": "Rocket.Code: switch to #channel"
+      },
+      {
+        "command": "rocketCode.ims.list",
+        "title": "Rocket.Code: list @conversations"
+      },
+      {
+        "command": "rocketCode.ims.select",
+        "title": "Rocket.Code: switch to @conversation"
+      },
+      {
+        "command": "rocketCode.groups.list",
+        "title": "Rocket.Code: list Groups"
+      },
+      {
+        "command": "rocketCode.rooms.select",
+        "title": "Rocket.Code: select current channel/group/conversation"
+      },
+      {
+        "command": "rocketCode.rooms.view",
+        "title": "Rocket.Code: view current room's conversation"
+      },
+      {
+        "command": "rocketCode.chat.postMessage",
+        "title": "Rocket.Code: send message to current room"
+      },
+      {
+        "command": "rocketCode.chat.postSelection",
+        "title": "Rocket.Code: send selection to current room"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "rocketCode.chat.postMessage",
+        "key": "ctrl+shift+enter",
+        "mac": "cmd+shift+enter",
+        "when": "!editorHasSelection"
+      },
+      {
+        "command": "rocketCode.chat.postSelection",
+        "key": "ctrl+shift+enter",
+        "mac": "cmd+shift+enter",
+        "when": "editorHasSelection"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "tsc -p ./",
+    "compile": "tsc -watch -p ./",
+    "postinstall": "node ./node_modules/vscode/bin/install",
+    "test": "node ./node_modules/vscode/bin/test"
+  },
+  "devDependencies": {
+    "@types/mocha": "^2.2.32",
+    "@types/node": "^6.0.40",
+    "mocha": "^2.3.3",
+    "typescript": "^2.0.3",
+    "vscode": "^1.0.0"
+  },
+  "dependencies": {
+    "http-status-codes": "^1.1.6",
+    "moment": "^2.18.1",
+    "node-rest-client": "^3.0.7",
+    "ramda": "^0.23.0",
+    "showdown": "^1.6.4"
+  }
 }

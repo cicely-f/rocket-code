@@ -1,6 +1,9 @@
 # Change Log
 All notable changes to the "rocket-code" extension will be documented in this file.
 
+## 0.2.2 [2017-04-03]
+- Improved code fence formatting in room preview, a few issues remain (mainly inline `code` and inline formatting)
+
 ## 0.2.1 [2017-04-03]
 - Replace CRLF in selected text with LF to avoid double-spacing in Rocket.Chat code fences
 
@@ -25,8 +28,8 @@ All notable changes to the "rocket-code" extension will be documented in this fi
 ## 0.0.2 [Unreleased]
 - Changed activation event from "*" to login()
 - Added icon for extension
-- List joined #channels
-- Select current #channel
+- List joined channels
+- Select current channel
 
 ## 0.0.1 [Unreleased]
 - Implement basic Rocket.Chat API access
