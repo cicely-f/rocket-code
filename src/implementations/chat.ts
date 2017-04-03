@@ -42,7 +42,7 @@ export const postSelection = commands.registerCommand('rocketCode.chat.postSelec
     if (selectedText.length > 0) {
       const channel = channelController.getChannel();
       if (channel) {
-        const result = await api.chat.postMessage({ roomId: channel._id, text: fencedString(selectedText) });
+        const result = await api.chat.postMessage({ roomId: channel._id, text: fencedString(selectedText.split('\r\n').join('\n')) });
         Output.log(`selection sent to ${channelController.getChannelName()}`);
       } else {
         window.showErrorMessage('You must select a channel, group or im first!');
