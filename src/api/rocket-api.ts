@@ -20,7 +20,7 @@ export const auth = {
   login: async function login(username: string, password: string) {
     const args = {
       headers,
-      data: { username, password },
+      data: { user: username, password: password },
     };
     const result = await getPromise('login', args);
     headers["X-User-Id"] = result.data.userId;
