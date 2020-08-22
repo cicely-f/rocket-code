@@ -2,7 +2,7 @@
   "name": "rocket-code",
   "displayName": "Rocket.Code",
   "description": "Use Rocket.Chat from within Visual Studio Code",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "preview": true,
   "publisher": "andrefischer",
   "author": {
@@ -55,6 +55,14 @@
         "rocketCode.password": {
           "type": "string",
           "description": "Your password for the Rocket.Chat server (optional, if not supplied, you'll be prompted)"
+        },
+        "rocketCode.userId": {
+          "type": "string",
+          "description": "Your personal access token id for the Rocket.Chat server"
+        },
+        "rocketCode.userKey": {
+          "type": "string",
+          "description": "Your personal access token key for the Rocket.Chat server (optional, if not supplied, you'll be prompted)"
         },
         "rocketCode.channel": {
           "type": "string",
