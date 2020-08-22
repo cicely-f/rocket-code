@@ -17,15 +17,19 @@ registerClientMethod('login', POST);
 registerClientMethod('logout', GET); // requires auth
 
 export const auth = {
-  login: async function login(username: string, password: string) {
+  login: async function login(user: string, password: string) {
     const args = {
       headers,
-      data: { username, password },
+      data: { user, password },
     };
     const result = await getPromise('login', args);
     headers["X-User-Id"] = result.data.userId;
     headers["X-Auth-Token"] = result.data.authToken;
     return result;
+  },
+  loginWithKey: async function loginWithKey(userId: string, userKey: string) {
+    headers["X-User-Id"] = userId;
+    headers["X-Auth-Token"] = userKey;
   },
   logout: async function logout() {
     const args = {

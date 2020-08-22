@@ -8,7 +8,13 @@ import Output from '../output-channel';
 
 export const login = commands.registerCommand('rocketCode.auth.login', async () => {
   try {
-    await api.auth.login(config.username, config.password);
+    if (config.username && config.password) {
+      await api.auth.login(config.username, config.password);
+    } else if (config.userId && config.userKey) {
+      await api.auth.loginWithKey(config.userId, config.userKey);
+    } else {
+      throw "You need to setup your credentials";
+    }
     Output.log(`Logged in on '${config.server}' as user '${config.username}'`);
     channelController.updateStatusBar();
     const channels = await api.channels.listJoined();
